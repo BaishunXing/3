@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
-import {TfiEmail} from 'react-icons/tfi'
-import {RiLockPasswordFill} from 'react-icons/ri'
-import {useNavigate} from 'react-router-dom'
+import { TfiEmail } from 'react-icons/tfi'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, clearError } from '../features/authSlice'
 import './Login.css';
+
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const error = useSelector(state => state.auth.error);
+    const user = useSelector(state => state.auth.user);
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         checked: false
     });
 
-    const { email, password, checked } = formData; 
-    
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }));
-    }
+    if (user) navigate('/dashboard', { replace: true });
 
     const handleLogin = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        
-        navigate('/dashboard');
+        dispatch(login({ username: formData.email, password: formData.password }));
     }
+
     return (
         <>
         <div className='login-page'>
@@ -33,31 +32,31 @@ function Login() {
                 <div className='login-form'>
                     <h2>Login to your account</h2>
                     <p className='welcome-message'>Welcome back! Please enter your details.</p>
-                    <form>
+                    <form onSubmit={handleLogin}>
                         <div className='input-group'>
                             <span className='icon-wrapper'>
                                 <TfiEmail className='icon'/>
                             </span>
-                            <input type="email" placeholder='Email' value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}/>
+                            <input type="text" placeholder='Email' value={formData.email} onChange={(e) => { dispatch(clearError()); setFormData({...formData, email: e.target.value})}}/>
                         </div>
                         <div className='input-group'>
                             <span className='icon-wrapper'>
                                 <RiLockPasswordFill className='icon'/>
                             </span>
-                            <input type="password" placeholder='Password' value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})}/>
+                            <input type="password" placeholder='Password' value={formData.password} onChange={(e) => { dispatch(clearError()); setFormData({...formData, password: e.target.value})}}/>
                         </div>
+                        {error && <p style={{ color: 'red', fontSize: 13 }}>{error}</p>}
                         <div className='checkbox'>
                             <label htmlFor='remember'>
                             <input type="checkbox" id='remember' checked={formData.checked} onChange={(e) => setFormData({...formData, checked: e.target.checked})}/>
                             Remember me
                             </label>
                         </div>
-
                         <div className='forgot-password'>
                             <a href="/forgot-password" className='forgot-link'>Forgot password?</a>
                         </div>
                         <div className='Submition'>
-                            <button type='submit' className='login-button' onSubmit={handleLogin}>LOG IN</button>
+                            <button type='submit' className='login-button'>LOG IN</button>
                         </div>
                     </form>
                     <p className='register-link'>Don't have an account? <strong><a href="/register" className='create-account'>Create an account</a></strong></p>
@@ -69,6 +68,5 @@ function Login() {
         </>
     )
 }
-
 
 export default Login

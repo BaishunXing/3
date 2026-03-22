@@ -1,29 +1,40 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-const user = JSON.parse(localStorage.getItem('user'))
+const USERS = [
+  { id: 1, username: 'admin',  password: 'admin123', name: 'Admin' },
+  { id: 2, username: 'alice',  password: 'alice123', name: 'Alice' },
+  { id: 3, username: 'bob',    password: 'bob123',   name: 'Bob'   },
+]
 
-const initialState = {
-    user: user ? user : null,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
-    message: ''
-}
-
-export const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-        reset: (state) => {
-            state.isLoading = false
-            state.isError = false
-            state.isSuccess = false
-            state.message = ''
-        }
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    user: JSON.parse(sessionStorage.getItem('user')) || null,
+    error: null,
+  },
+  reducers: {
+    login(state, action) {
+      const { username, password } = action.payload
+      const found = USERS.find(u => u.username === username && u.password === password)
+      if (found) {
+        const { password: _, ...safeUser } = found
+        state.user = safeUser
+        state.error = null
+        sessionStorage.setItem('user', JSON.stringify(safeUser))
+      } else {
+        state.error = 'Invalid username or password'
+      }
     },
-    extraReducers: (builder) => {}
-
+    logout(state) {
+      state.user = null
+      state.error = null
+      sessionStorage.removeItem('user')
+    },
+    clearError(state) {
+      state.error = null
+    },
+  },
 })
 
-export const {reset} = authSlice.actions
+export const { login, logout, clearError } = authSlice.actions
 export default authSlice.reducer
