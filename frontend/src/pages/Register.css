@@ -1,0 +1,37 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.register-page {
+    position: fixed;
+    display: flex;
+    inset: 0;
+}
+.register-left, .register-right {
+    flex : 1;
+}
+.register-left {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+}
+.welcome-message {
+    color: #9b9b9b;
+    margin-top: 0px;
+}
+
+.register-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4d7ffe;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.register-right {
+    background: #236bfc;
+}

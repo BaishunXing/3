@@ -1,0 +1,70 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.login-page {
+    position: fixed;
+    display: flex;
+    inset: 0;
+}
+.login-left, .login-right {
+    flex : 1;
+}
+.login-left {
+    background: #ffffff;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-message {
+    color: #9b9b9b;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.input-group .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    color: #8d9eca;
+    transform: translateY(-50%);
+}
+.input-group input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #4d7ffe;
+    border-radius: 4px;
+}
+
+.checkbox, .forgot-password {
+    display: inline-block;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+/* .Submition {
+    display: flex;
+    justify-content: center;
+} */
+
+.login-button {
+    background: #236bfc;
+    color: white;
+    border: none;
+    padding: 10px 100px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.login-right {
+    background: #236bfc;
+}
